@@ -31,7 +31,7 @@
             Margin="0,0,20,20"
             VerticalAlignment="Bottom"
             Width="80"
-            Height="30"
+            Height="45"
             Click="btnSend_Click" FontWeight="Bold" FontFamily="Segoe UI Variable Display" FontSize="14"/>
             </Grid>
             </Grid>
