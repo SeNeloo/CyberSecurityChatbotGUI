@@ -20,7 +20,7 @@
 
     <TextBox x:Name="txtUserInput"
              HorizontalAlignment="Left"
-             Height="30"
+             Height="60"
              Margin="20,0,120,20"
              VerticalAlignment="Bottom"
              Width="400"/>
