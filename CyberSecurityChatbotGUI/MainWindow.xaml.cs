@@ -183,7 +183,7 @@ namespace CyberSecurityChatbotGUI
             }
 
             // Sentiment Detection
-            if (input.Contains("worried & stressed") || input.Contains("scared"))
+            if (input.Contains("worried & stressed.") || input.Contains("scared"))
             {
                 AddMessage("Bot: It's okay to feel concerned. Cybersecurity awareness helps keep you safe online.");
                 found = true;
