@@ -6,7 +6,7 @@
         Width="900"
         Background="#1E1E2F">
  <Grid>
-       <Grid Background="#FFCFF6C4">
+       <Grid Background="#FF7DBACA">
 
     <Label Content="Cybersecurity Awareness Bot"
            HorizontalAlignment="Center"
