@@ -140,7 +140,7 @@ namespace CyberSecurityChatbotGUI
 
                 if (input.Contains("sad"))
                 {
-                    AddMessage("Bot: I'm sorry you're feeling sad :( , Stay safe online and take things step by step.");
+                    AddMessage("Bot: I'm sorry you're feeling sad :( , Stay safe online and take everthing step by step.");
                     return;
                 }
 
@@ -152,7 +152,7 @@ namespace CyberSecurityChatbotGUI
 
                 if (input.Contains("confused"))
                 {
-                    AddMessage("Bot: No worries. Let me explain it differently.");
+                    AddMessage("Bot: Dont stress. Let me explain it differently.");
                     return;
                 }
 
