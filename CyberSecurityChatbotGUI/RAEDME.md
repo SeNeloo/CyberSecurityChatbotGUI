@@ -92,3 +92,13 @@ This project includes:
 
 # Author
 Senelo
+
+# References
+
+Microsoft. (2025). WPF documentation. Available at: https://learn.microsoft.com/en-us/dotnet/desktop/wpf/ [Accessed 12 May 2026].
+
+Microsoft. (2025). Dictionary<TKey,TValue> Class. Available at: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 [Accessed 12 May 2026].
+
+Microsoft. (2025). Random Class. Available at: https://learn.microsoft.com/en-us/dotnet/api/system.random [Accessed 12 May 2026].
+
+Microsoft. (2025). Exception Handling in C#. Available at: https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/ [Accessed 12 May 2026].
