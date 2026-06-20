@@ -31,6 +31,13 @@ namespace CyberSecurityChatbotGUI
         private List<TaskItem> tasks = new List<TaskItem>();
         private string connectionString =
                   "server=localhost;database=CyberSecurityDB;uid=root;pwd=@Labs2026!;";
+
+        private List<QuizQuestion> quizQuestions =
+            new List<QuizQuestion>();
+
+        private int currentQuestion = 0;
+        private int score = 0;
+
         //convo stages
         bool nameCaptured = false;
         bool topicCaptured = false;
@@ -42,6 +49,10 @@ namespace CyberSecurityChatbotGUI
 
             LoadTasks();
             CheckReminders();
+            LoadQuizQuestions();
+            DisplayQuestion();
+        
+
 
             responses.Add("password", new List<string>()
     {
@@ -244,7 +255,7 @@ namespace CyberSecurityChatbotGUI
             }
         }
         // delete task button
-            private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
+        private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -392,8 +403,96 @@ namespace CyberSecurityChatbotGUI
                 MessageBox.Show(ex.Message);
             }
         }
+        private void LoadQuizQuestions()
+        {
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "What is phishing?",
+                CorrectAnswer = "A scam to steal information"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "Should you share passwords?",
+                CorrectAnswer = "No"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "What does VPN stand for?",
+                CorrectAnswer = "Virtual Private Network"
+            });
+        }
+ 
+    private void DisplayQuestion()
+        {
+            if (currentQuestion < quizQuestions.Count)
+            {
+                lblQuestion.Content =
+                    quizQuestions[currentQuestion].Question;
+            }
+        }
+        //answer button 
+        private void btnSubmitAnswer_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            string answer = txtQuizAnswer.Text.Trim();
+
+            if (answer.Equals(
+                quizQuestions[currentQuestion].CorrectAnswer,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                score++;
+
+                MessageBox.Show("Correct!");
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Incorrect. Correct answer: " +
+                    quizQuestions[currentQuestion].CorrectAnswer);
+            }
+
+            currentQuestion++;
+
+            txtQuizAnswer.Clear();
+
+            if (currentQuestion < quizQuestions.Count)
+            {
+                DisplayQuestion();
+            }
+            else
+            {
+                lblQuestion.Content = "Quiz Complete!";
+
+                lblScore.Content =
+                    $"Final Score: {score}/{quizQuestions.Count}";
+
+                lstActivityLog.Items.Add(
+                    $"Quiz Completed: {score}/{quizQuestions.Count}");
+
+                if (score >= 8)
+                {
+                    MessageBox.Show(
+                        "Excellent cybersecurity knowledge!");
+                }
+                else if (score >= 5)
+                {
+                    MessageBox.Show(
+                        "Good effort! Keep learning.");
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "You should review cybersecurity basics.");
+                }
+            }
+        }
     }
 }
+
+
 
 
         
