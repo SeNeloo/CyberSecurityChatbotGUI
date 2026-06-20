@@ -25,6 +25,8 @@ namespace CyberSecurityChatbotGUI
         string favouriteTopic = "";
         string lastBotResponse = "";
 
+        private List<TaskItem> tasks = new List<TaskItem>();
+
         //convo stages
         bool nameCaptured = false;
         bool topicCaptured = false;
@@ -199,7 +201,66 @@ namespace CyberSecurityChatbotGUI
         {
 
         }
+
+
+
+        //add task button
+        private void btnAddTask_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TaskItem task = new TaskItem()
+                {
+                    Title = txtTaskTitle.Text,
+                    Description = txtTaskDescription.Text,
+                    ReminderDate = dpReminder.SelectedDate ?? DateTime.Now,
+                    Status = "Pending"
+                };
+
+                tasks.Add(task);
+
+                dgTasks.ItemsSource = null;
+                dgTasks.ItemsSource = tasks;
+
+                lstActivityLog.Items.Add(
+                    $"Task Added: {task.Title} ({DateTime.Now})");
+
+                MessageBox.Show("Task added successfully!");
+
+                txtTaskTitle.Clear();
+                txtTaskDescription.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        // delete task button
+            private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dgTasks.SelectedItem is TaskItem selectedTask)
+                {
+                    tasks.Remove(selectedTask);
+
+                    dgTasks.ItemsSource = null;
+                    dgTasks.ItemsSource = tasks;
+
+                    lstActivityLog.Items.Add(
+                        $"Task Deleted: {selectedTask.Title}");
+
+                    MessageBox.Show("Task deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
-}
+    }
+
+
         
 
