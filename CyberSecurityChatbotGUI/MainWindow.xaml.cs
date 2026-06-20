@@ -10,6 +10,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+
 
 
 namespace CyberSecurityChatbotGUI
@@ -26,7 +28,8 @@ namespace CyberSecurityChatbotGUI
         string lastBotResponse = "";
 
         private List<TaskItem> tasks = new List<TaskItem>();
-
+        private string connectionString =
+                  "server=localhost;database=CyberSecurityDB;uid=root;pwd=@Labs2026!;";
         //convo stages
         bool nameCaptured = false;
         bool topicCaptured = false;
@@ -218,6 +221,7 @@ namespace CyberSecurityChatbotGUI
                 };
 
                 tasks.Add(task);
+                SaveTaskToDatabase(task);
 
                 dgTasks.ItemsSource = null;
                 dgTasks.ItemsSource = tasks;
@@ -258,8 +262,41 @@ namespace CyberSecurityChatbotGUI
                 MessageBox.Show(ex.Message);
             }
         }
+
+        //save task to database 
+        private void SaveTaskToDatabase(TaskItem task)
+        {
+            try
+            {
+                using (MySqlConnection conn =
+                    new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query =
+                    @"INSERT INTO Tasks
+              (Title, Description, ReminderDate, Status)
+              VALUES
+              (@Title, @Description, @ReminderDate, @Status)";
+
+                    MySqlCommand cmd =
+                        new MySqlCommand(query, conn);
+
+                    cmd.Parameters.AddWithValue("@Title", task.Title);
+                    cmd.Parameters.AddWithValue("@Description", task.Description);
+                    cmd.Parameters.AddWithValue("@ReminderDate", task.ReminderDate);
+                    cmd.Parameters.AddWithValue("@Status", task.Status);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
-    }
+}
 
 
         
