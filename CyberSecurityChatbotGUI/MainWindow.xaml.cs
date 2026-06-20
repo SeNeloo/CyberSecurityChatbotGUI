@@ -96,6 +96,8 @@ namespace CyberSecurityChatbotGUI
             {
                 string input = txtUserInput.Text.ToLower();
 
+                ProcessNLP(input);
+
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     MessageBox.Show("Please enter a message.");
@@ -237,6 +239,7 @@ namespace CyberSecurityChatbotGUI
 
                 tasks.Add(task);
                 SaveTaskToDatabase(task);
+                AddActivity($"Task Added:{task.Title}");
 
                 dgTasks.ItemsSource = null;
                 dgTasks.ItemsSource = tasks;
@@ -268,6 +271,7 @@ namespace CyberSecurityChatbotGUI
 
                     lstActivityLog.Items.Add(
                         $"Task Deleted: {selectedTask.Title}");
+                    AddActivity($"Task Deleted:{selectedTask.Title}");
 
                     MessageBox.Show("Task deleted.");
                 }
@@ -388,6 +392,7 @@ namespace CyberSecurityChatbotGUI
                 if (dgTasks.SelectedItem is TaskItem selectedTask)
                 {
                     selectedTask.Status = "Completed";
+                    AddActivity($"Task Completed:{selectedTask.Title}");
 
                     dgTasks.ItemsSource = null;
                     dgTasks.ItemsSource = tasks;
@@ -486,11 +491,72 @@ namespace CyberSecurityChatbotGUI
                 {
                     MessageBox.Show(
                         "You should review cybersecurity basics.");
+
+                    AddActivity($"Quiz Completed - Score {score}/{quizQuestions.Count}");
                 }
             }
         }
+            
+
+            //nlp
+            private void ProcessNLP(string input)
+        {
+            input = input.ToLower();
+
+            // quiz commands
+            if (input.Contains("quiz") ||
+                input.Contains("test my knowledge") ||
+                input.Contains("start quiz"))
+            {
+                MessageBox.Show("Opening Quiz Tab");
+
+                return;
+            }
+
+            // task commands
+            if (input.Contains("add task") ||
+                input.Contains("create task") ||
+                input.Contains("new task"))
+            {
+                MessageBox.Show("Please use the Tasks tab to add a task.");
+
+                lstActivityLog.Items.Add(
+                    "NLP detected task creation request.");
+
+                return;
+            }
+
+            // reminder commands
+            if (input.Contains("reminder") ||
+                input.Contains("remind me"))
+            {
+                MessageBox.Show("Please use the Tasks tab to create reminders.");
+
+                lstActivityLog.Items.Add(
+                    "NLP detected reminder request.");
+
+                return;
+            }
+
+            // log commands
+            if (input.Contains("show log") ||
+                input.Contains("activity log") ||
+                input.Contains("what have you done"))
+            {
+                MessageBox.Show(
+                    $"Activity Log contains {lstActivityLog.Items.Count} actions.");
+
+                return;
+            }
+        }
+        private void AddActivity(string action)
+        {
+            lstActivityLog.Items.Add(
+                $"{DateTime.Now:dd/MM/yyyy HH:mm} - {action}");
+        }
     }
 }
+
 
 
 

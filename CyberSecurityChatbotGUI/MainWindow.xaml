@@ -7,7 +7,7 @@
         Background="#1E1E2F">
  
         <Grid>
-            <TabControl Margin="10">
+            <TabControl x:Name="tabMain" Margin="10">
 
                 
                 <TabItem Header="Chatbot">
