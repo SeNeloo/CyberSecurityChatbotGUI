@@ -369,6 +369,29 @@ namespace CyberSecurityChatbotGUI
                 MessageBox.Show(ex.Message);
             }
         }
+        //complete buttom
+        private void btnCompleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dgTasks.SelectedItem is TaskItem selectedTask)
+                {
+                    selectedTask.Status = "Completed";
+
+                    dgTasks.ItemsSource = null;
+                    dgTasks.ItemsSource = tasks;
+
+                    lstActivityLog.Items.Add(
+                        $"Task Completed: {selectedTask.Title}");
+
+                    MessageBox.Show("Task marked complete.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
 

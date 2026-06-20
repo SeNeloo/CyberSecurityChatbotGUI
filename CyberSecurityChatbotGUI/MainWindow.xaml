@@ -82,7 +82,13 @@
                             Width="100"
                             Margin="5"
                             Click="btnDeleteTask_Click"/>
-                        </StackPanel>
+
+                        <Button x:Name="btnCompleteTask"
+                         Content="Complete"
+                         Width="100"
+                         Margin="5"
+                         Click="btnCompleteTask_Click"/>
+                    </StackPanel>
 
                         <DataGrid x:Name="dgTasks"
                           Grid.Row="3"
