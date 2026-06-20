@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 
 
@@ -38,6 +39,8 @@ namespace CyberSecurityChatbotGUI
 
         {
             InitializeComponent();
+
+            LoadTasks();
 
             responses.Add("password", new List<string>()
     {
@@ -289,6 +292,51 @@ namespace CyberSecurityChatbotGUI
 
                     cmd.ExecuteNonQuery();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //laod task
+        private void LoadTasks()
+        {
+            try
+            {
+                tasks.Clear();
+
+                using (MySqlConnection conn =
+                    new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM Tasks";
+
+                    MySqlCommand cmd =
+                        new MySqlCommand(query, conn);
+
+                    MySqlDataReader reader =
+                        cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        TaskItem task = new TaskItem()
+                        {
+                            TaskID = Convert.ToInt32(reader["TaskID"]),
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            ReminderDate =
+                                Convert.ToDateTime(reader["ReminderDate"]),
+                            Status = reader["Status"].ToString()
+                        };
+
+                        tasks.Add(task);
+                    }
+                }
+
+                dgTasks.ItemsSource = null;
+                dgTasks.ItemsSource = tasks;
             }
             catch (Exception ex)
             {
