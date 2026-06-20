@@ -41,6 +41,7 @@ namespace CyberSecurityChatbotGUI
             InitializeComponent();
 
             LoadTasks();
+            CheckReminders();
 
             responses.Add("password", new List<string>()
     {
@@ -337,6 +338,31 @@ namespace CyberSecurityChatbotGUI
 
                 dgTasks.ItemsSource = null;
                 dgTasks.ItemsSource = tasks;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //reminder checker 
+        private void CheckReminders()
+        {
+            try
+            {
+                foreach (TaskItem task in tasks)
+                {
+                    if (task.Status == "Pending" &&
+                        task.ReminderDate.Date <= DateTime.Today)
+                    {
+                        MessageBox.Show(
+                            $"Reminder: {task.Title}",
+                            "Task Reminder");
+
+                        lstActivityLog.Items.Add(
+                            $"Reminder Triggered: {task.Title}");
+                    }
+                }
             }
             catch (Exception ex)
             {
