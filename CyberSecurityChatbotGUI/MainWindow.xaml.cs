@@ -27,6 +27,8 @@ namespace CyberSecurityChatbotGUI
         string userName = "";
         string favouriteTopic = "";
         string lastBotResponse = "";
+        string previousAnswer = "";
+
 
         private List<TaskItem> tasks = new List<TaskItem>();
         private string connectionString =
@@ -51,7 +53,7 @@ namespace CyberSecurityChatbotGUI
             CheckReminders();
             LoadQuizQuestions();
             DisplayQuestion();
-        
+
 
 
             responses.Add("password", new List<string>()
@@ -63,9 +65,9 @@ namespace CyberSecurityChatbotGUI
 
             responses.Add("phishing", new List<string>()
     {
-        "DONT click suspicious links.",
-        "Always verify email senders.",
-        "Phishing scams try to steal your information."
+        "Cyberattack to trick users into revealing sensitive information."
+        
+        
     });
 
             responses.Add("privacy", new List<string>()
@@ -81,7 +83,11 @@ namespace CyberSecurityChatbotGUI
         }
         private void AddMessage(string message)
         {
-            lastBotResponse = message;
+            if (message.StartsWith("Bot: ") && 
+                !message.Contains("Let me repeat that for you"))
+            {
+                previousAnswer = message;
+            }
 
             Paragraph paragraph = new Paragraph(new Run(message));
             paragraph.Margin = new Thickness(0, 5, 0, 5);
@@ -144,42 +150,43 @@ namespace CyberSecurityChatbotGUI
                         AddMessage("Bot: Your favourite cubesecurity topic is" + favouriteTopic);
                         return;
                     }
+                    if (input.Contains("confused") || input.Contains(" i don't know"))
+                    {
+                        AddMessage("Bot: Let me repeat that for you");
+                        AddMessage(previousAnswer);
 
+                        return;
+                    }
+
+                    if (input.Contains("angry"))
+                    {
+                        AddMessage("Bot: I understand you're frustrated. Let me try help.");
+                        return;
+                    }
+
+                    if (input.Contains("sad"))
+                    {
+                        AddMessage("Bot: I'm sorry you're feeling sad :( , Stay safe online and take everthing step by step.");
+                        return;
+                    }
+
+                    if (input.Contains("happy"))
+                    {
+                        AddMessage("Bot: I'm glad you're feeling happy:)");
+                        return;
+                    }
+
+                    if (input.Contains("confused"))
+                    {
+                        AddMessage("Bot: Dont stress. Let me explain it differently.");
+                        return;
+                    }
                     RespondToUser(input);
-                }
-                if (input.Contains("confused") || input.Contains("don't know"))
-                {
-                    AddMessage("Bot: Let me repeat that for you");
-                    AddMessage(lastBotResponse);
-                    return;
-                }
 
-                if (input.Contains("angry"))
-                {
-                    AddMessage("Bot: I understand you're frustrated. Let me try help.");
-                    return;
+                    txtUserInput.Clear();
                 }
-
-                if (input.Contains("sad"))
-                {
-                    AddMessage("Bot: I'm sorry you're feeling sad :( , Stay safe online and take everthing step by step.");
-                    return;
-                }
-
-                if (input.Contains("happy"))
-                {
-                    AddMessage("Bot: I'm glad you're feeling happy:)");
-                    return;
-                }
-
-                if (input.Contains("confused"))
-                {
-                    AddMessage("Bot: Dont stress. Let me explain it differently.");
-                    return;
-                }
-
-                txtUserInput.Clear();
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
@@ -205,17 +212,29 @@ namespace CyberSecurityChatbotGUI
             }
 
             // Sentiment Detection
-            if (input.Contains("worried & stressed.") || input.Contains("scared"))
+
+            if (input.Contains("confused.") || input.Contains("i dont know"))
+
             {
-                AddMessage("Bot: It's okay to feel concerned. Cybersecurity awareness helps keep you safe online.");
-                found = true;
+                AddMessage("Bot: Let me repeat that for you.");
+                AddMessage(lastBotResponse);
+                return;
             }
 
-            if (found)
-            {
-                AddMessage("Bot: I'm not sure I understand. Can you rephrase?");
+
+                if (input.Contains("stressed.") || input.Contains("scared"))
+                {
+                    AddMessage("Bot: It's okay to feel concerned. Cybersecurity awareness helps keep you safe online.");
+                return;
+
+                }
+
+                if (!found)
+                {
+                    AddMessage("Bot: I don't currently have information on that topic. Try asking me about cybersecurty topics such as password saftey, privacy, malware, VPNs or social engineering.");
+                }
             }
-        }
+        
 
         private void rtbChat_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -412,14 +431,19 @@ namespace CyberSecurityChatbotGUI
         {
             quizQuestions.Add(new QuizQuestion()
             {
-                Question = "1.What is phishing?",
-                CorrectAnswer = "A scam to steal information"
+                Question = "1.What is phishing?" +
+                "A) Scam email" +
+                "B) Antivirus" +
+                "C) Firewall"  +
+                "D) VPN ",
+                CorrectAnswer = "A"
             });
 
             quizQuestions.Add(new QuizQuestion()
             {
-                Question = "2.Should you share passwords?",
-                CorrectAnswer = "No"
+                Question = "2.True of False. " +
+                "You should share passwords? ",
+                CorrectAnswer = "False"
             });
 
             quizQuestions.Add(new QuizQuestion()
@@ -454,8 +478,12 @@ namespace CyberSecurityChatbotGUI
 
             quizQuestions.Add(new QuizQuestion()
             {
-                Question = "8.Should software be updated reqularly?",
-                CorrectAnswer = "Yes"
+                Question = "8.Should software be updated reqularly?" +
+                "A) No" +
+                "B) Yes" +
+                "C) Sometimes" +
+                "D) When Reminded",
+                CorrectAnswer = "B"
             });
 
             quizQuestions.Add(new QuizQuestion()
