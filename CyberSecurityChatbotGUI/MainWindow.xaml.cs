@@ -412,20 +412,62 @@ namespace CyberSecurityChatbotGUI
         {
             quizQuestions.Add(new QuizQuestion()
             {
-                Question = "What is phishing?",
+                Question = "1.What is phishing?",
                 CorrectAnswer = "A scam to steal information"
             });
 
             quizQuestions.Add(new QuizQuestion()
             {
-                Question = "Should you share passwords?",
+                Question = "2.Should you share passwords?",
                 CorrectAnswer = "No"
             });
 
             quizQuestions.Add(new QuizQuestion()
             {
-                Question = "What does VPN stand for?",
+                Question = "3.What does VPN stand for?",
                 CorrectAnswer = "Virtual Private Network"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "4.What does 2FA stand for?",
+                CorrectAnswer = "Two factor Authentication"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "5.Which protocol is safer, HTTPS or HTTP?",
+                CorrectAnswer = "HTTPS"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "6.Should you click suspicious links?",
+                CorrectAnswer = "No"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "7.What is malware?",
+                CorrectAnswer = "Malicious software"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "8.Should software be updated reqularly?",
+                CorrectAnswer = "Yes"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "9.What is social engineering?",
+                CorrectAnswer = "Manipulating people for information"
+            });
+
+            quizQuestions.Add(new QuizQuestion()
+            {
+                Question = "10.Should your password be more unique or more complex?",
+                CorrectAnswer = "Unique"
             });
         }
  
